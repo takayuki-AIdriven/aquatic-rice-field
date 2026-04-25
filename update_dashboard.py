@@ -93,3 +93,36 @@ def update_html():
 
 if __name__ == "__main__":
     update_html()
+# --- ここから下を最後に追加 ---
+import os
+import urllib.request
+import json
+
+def send_line_notify(message):
+    token = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN")
+    user_id = os.environ.get("LINE_USER_ID")
+    if not token or not user_id:
+        print("LINE credentials not found. Skipping LINE notification.")
+        return
+
+    url = "https://api.line.me/v2/bot/message/push"
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {token}"
+    }
+    data = {
+        "to": user_id,
+        "messages": [{"type": "text", "text": message}]
+    }
+    
+    req = urllib.request.Request(url, data=json.dumps(data).encode("utf-8"), headers=headers)
+    try:
+        with urllib.request.urlopen(req) as res:
+            print("LINE notification sent successfully.")
+    except Exception as e:
+        print(f"Failed to send LINE notification: {e}")
+
+# レポート完成後にLINEへ通知
+dashboard_url = "https://takayuki-aldriven.github.io/aquatic-rice-field/next-gen-farm-ai-report.html"
+line_message = f"【竜王AI司令室】\n本日のAI現場指令が更新されました。\n\n▼最新のダッシュボードを確認\n{dashboard_url}"
+send_line_notify(line_message)
