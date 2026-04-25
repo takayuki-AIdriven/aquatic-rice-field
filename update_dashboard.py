@@ -99,8 +99,9 @@ import urllib.request
 import json
 
 def send_line_notify(message):
-    token = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN")
-    user_id = os.environ.get("LINE_USER_ID")
+    token = os.environ.get("LINE_CHANNEL_ACCESS_TOKEN", "").strip()
+    user_id = os.environ.get("LINE_USER_ID", "").strip()
+    
     if not token or not user_id:
         print("LINE credentials not found. Skipping LINE notification.")
         return
