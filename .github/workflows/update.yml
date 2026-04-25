@@ -1,0 +1,33 @@
+name: Daily AI Dashboard Update
+
+# いつこのプログラムを動かすかの設定
+on:
+  schedule:
+    # 毎日 日本時間の朝5:00（UTCの20:00）に自動実行する
+    - cron: '0 20 * * *'
+  # 手動で「今すぐ動かす」ボタンも用意しておく
+  workflow_dispatch:
+
+jobs:
+  update-dashboard:
+    runs-on: ubuntu-latest # GitHubの強力なサーバーを使用
+
+    steps:
+      - name: リポジトリのデータを取得
+        uses: actions/checkout@v4
+
+      - name: Python（AIの頭脳）を動かす準備
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: AIの頭脳（プログラム）を実行し、本日の指令を計算
+        run: python update_dashboard.py
+
+      - name: 新しく書き換えられたレポート（HTML）を本陣に保存
+        run: |
+          git config --global user.name "AI Dashboard Bot"
+          git config --global user.email "actions@github.com"
+          git add next-gen-farm-ai-report.html
+          # 変更があれば歴史に刻む（コミットしてプッシュ）
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 AIが本日の指令を更新しました" && git push)
