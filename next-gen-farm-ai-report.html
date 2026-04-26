@@ -64,9 +64,9 @@
         </div>
 
         <div class="flex flex-wrap items-stretch gap-3 lg:justify-end">
-          <div id="report-date-card" class="flex min-w-[140px] flex-col justify-center rounded-xl border border-slate-200 bg-slate-50/90 px-4 py-3 shadow-sm">
+          <div id="report-date-card" class="flex min-w-[140px] sm:min-w-[17.5rem] flex-col justify-center rounded-xl border border-slate-200 bg-slate-50/90 px-4 py-3 shadow-sm">
             <span class="font-mono text-[10px] uppercase tracking-wider text-slate-500">レポート日付</span>
-            <time id="report-date" datetime="2026-04-21" class="font-mono text-lg font-semibold text-slate-900">2026年4月21日（火）</time>
+            <time id="report-date" datetime="" class="font-mono text-lg font-semibold tabular-nums text-slate-900">—</time>
             <span id="report-era" class="mt-0.5 text-xs text-slate-500">令和8年 / 育苗・作付シーズン</span>
           </div>
           <div id="weather-card" class="flex min-w-[200px] items-center gap-4 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 shadow-sm">
@@ -691,5 +691,29 @@
       <p id="report-footer-copy">AI_Dashboard_2026 · Single-file mock · IDs are stable hooks for API binding</p>
     </footer>
   </div>
+  <script>
+    (function () {
+      var el = document.getElementById('report-date');
+      if (!el) return;
+      var weekdays = ['日', '月', '火', '水', '木', '金', '土'];
+      function pad(n) {
+        return (n < 10 ? '0' : '') + n;
+      }
+      function tick() {
+        var d = new Date();
+        var y = d.getFullYear();
+        var m = d.getMonth() + 1;
+        var day = d.getDate();
+        var w = weekdays[d.getDay()];
+        var h = d.getHours();
+        var min = d.getMinutes();
+        var s = d.getSeconds();
+        el.setAttribute('datetime', y + '-' + pad(m) + '-' + pad(day) + 'T' + pad(h) + ':' + pad(min) + ':' + pad(s));
+        el.textContent = y + '年' + m + '月' + day + '日（' + w + '） ' + pad(h) + ':' + pad(min) + ':' + pad(s);
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>
 </body>
 </html>
