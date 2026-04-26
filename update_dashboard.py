@@ -124,6 +124,6 @@ def send_line_notify(message):
         print(f"Failed to send LINE notification: {e}")
 
 # レポート完成後にLINEへ通知
-dashboard_url = "https://takayuki-aldriven.github.io/aquatic-rice-field/next-gen-farm-ai-report.html"
+dashboard_url = "https://takayuki-aidriven.github.io/aquatic-rice-field/next-gen-farm-ai-report.html"
 line_message = f"【竜王AI司令室】\n本日のAI現場指令が更新されました。\n\n▼最新のダッシュボードを確認\n{dashboard_url}"
 send_line_notify(line_message)
