@@ -70,24 +70,24 @@
             <span id="report-era" class="mt-0.5 text-xs text-slate-500">令和8年 / 育苗・作付シーズン</span>
           </div>
           <div id="weather-card" class="flex min-w-[200px] items-center gap-4 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 shadow-sm">
-            <div id="weather-icon" class="flex h-12 w-12 items-center justify-center rounded-lg bg-sky-100 text-sky-600" aria-hidden="true">
-              <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div id="weather-icon" class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-sky-100 text-sky-600" aria-hidden="true">
+              <svg class="h-7 w-7 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
               </svg>
             </div>
-            <div>
+            <div class="min-w-0 flex-1">
               <span id="weather-label" class="font-mono text-[10px] uppercase tracking-wider text-sky-700">現場天候</span>
-              <p id="weather-condition" class="text-lg font-semibold text-slate-900">曇り時々晴れ</p>
-              <p class="font-mono text-xs text-slate-600"><span id="weather-humidity">湿度 62%</span> · <span id="weather-wind">北西 2m/s</span></p>
+              <p id="weather-condition" class="text-lg font-semibold text-slate-900"></p>
+              <p class="font-mono text-xs text-slate-600"><span id="weather-humidity"></span> · <span id="weather-wind"></span></p>
             </div>
           </div>
           <div id="temperature-card" class="flex min-w-[120px] flex-col justify-center rounded-xl border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50/80 px-4 py-3 shadow-sm">
             <span class="font-mono text-[10px] uppercase tracking-wider text-amber-800/80">気温</span>
             <p class="flex items-baseline gap-1">
-              <span id="weather-temperature" class="font-mono text-3xl font-bold tabular-nums text-amber-600">18.4</span>
+              <span id="weather-temperature" class="font-mono text-3xl font-bold tabular-nums text-amber-600"></span>
               <span id="weather-temperature-unit" class="text-sm font-medium text-amber-800/90">°C</span>
             </p>
-            <span id="weather-feels" class="text-xs text-slate-500">体感 17°C</span>
+            <span id="weather-feels" class="text-xs text-slate-500"></span>
           </div>
         </div>
       </div>
@@ -713,6 +713,143 @@
       }
       tick();
       setInterval(tick, 1000);
+    })();
+  </script>
+  <script>
+    (function () {
+      var RYUO_LAT = 35.0858;
+      var RYUO_LON = 136.0354;
+      var WEATHER_API_URL =
+        'https://api.open-meteo.com/v1/forecast?latitude=' +
+        RYUO_LAT +
+        '&longitude=' +
+        RYUO_LON +
+        '&timezone=Asia%2FTokyo' +
+        '&wind_speed_unit=ms' +
+        '&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m';
+
+      function getWeatherIconAndDesc(code) {
+        var table = {
+          0: ['☀️', '快晴'],
+          1: ['🌤️', '概ね晴れ'],
+          2: ['⛅', '一部曇り'],
+          3: ['☁️', '曇り'],
+          45: ['🌫️', '霧'],
+          48: ['🌫️', '霧氷'],
+          51: ['🌦️', '弱い霧雨'],
+          53: ['🌦️', '中程度の霧雨'],
+          55: ['🌦️', '濃い霧雨'],
+          56: ['🌧️', '弱い凍雨'],
+          57: ['🌧️', '強い凍雨'],
+          61: ['🌧️', '小雨'],
+          63: ['🌧️', '雨'],
+          65: ['🌧️', '大雨'],
+          66: ['🌨️', '弱い凍結性降雨'],
+          67: ['🌨️', '強い凍結性降雨'],
+          71: ['🌨️', '弱い雪'],
+          73: ['🌨️', '雪'],
+          75: ['❄️', '大雪'],
+          77: ['🌨️', '霧雪'],
+          80: ['🌧️', '小雨・雷雨'],
+          81: ['🌧️', '雨・雷雨'],
+          82: ['🌧️', '強い雨・雷雨'],
+          85: ['🌨️', 'にわか雪'],
+          86: ['🌨️', '大雪'],
+          95: ['⛈️', '雷'],
+          96: ['⛈️', '雷・小さな雹'],
+          99: ['⛈️', '雷・大きな雹'],
+        };
+        return table[code] || ['❓', '不明'];
+      }
+
+      function windDegToDirection(deg) {
+        if (deg == null || isNaN(deg)) return '—';
+        var dirs = [
+          '北',
+          '北北東',
+          '北東',
+          '東北東',
+          '東',
+          '東南東',
+          '南東',
+          '南南東',
+          '南',
+          '南南西',
+          '南西',
+          '西南西',
+          '西',
+          '西北西',
+          '北西',
+          '北北西',
+        ];
+        var ix = Math.floor(((Number(deg) + 11.25) % 360) / 22.5);
+        return dirs[ix];
+      }
+
+      function fmtTemp(v) {
+        if (v == null || isNaN(v)) return '—';
+        var n = Number(v);
+        return (Math.round(n * 10) / 10).toFixed(1);
+      }
+
+      async function updateWeatherRyuo() {
+        var iconBox = document.getElementById('weather-icon');
+        var conditionEl = document.getElementById('weather-condition');
+        var humidityEl = document.getElementById('weather-humidity');
+        var windEl = document.getElementById('weather-wind');
+        var tempEl = document.getElementById('weather-temperature');
+        var feelsEl = document.getElementById('weather-feels');
+        if (!iconBox || !conditionEl || !humidityEl || !windEl || !tempEl || !feelsEl) return;
+
+        try {
+          var r = await fetch(WEATHER_API_URL);
+          var data = await r.json();
+          var cur = data.current;
+          if (!cur) {
+            conditionEl.textContent = '取得できませんでした';
+            return;
+          }
+
+          var temp = cur.temperature_2m;
+          var feels = cur.apparent_temperature;
+          var humidity = cur.relative_humidity_2m;
+          var ws = cur.wind_speed_10m;
+          var wd = cur.wind_direction_10m;
+          var code = cur.weather_code;
+
+          var pair = getWeatherIconAndDesc(code);
+          var icon = pair[0];
+          var desc = pair[1];
+
+          iconBox.innerHTML =
+            '<span style="font-size:2.1rem;line-height:1;" aria-hidden="true">' + icon + '</span>';
+          conditionEl.textContent = desc;
+          humidityEl.textContent =
+            humidity != null && !isNaN(humidity) ? '湿度 ' + Math.round(humidity) + '%' : '—';
+          windEl.textContent =
+            ws != null &&
+            !isNaN(ws) &&
+            wd != null &&
+            !isNaN(wd)
+              ? windDegToDirection(wd) + ' ' + Number(ws).toFixed(1) + ' m/s'
+              : '—';
+          tempEl.textContent = fmtTemp(temp);
+          feelsEl.textContent =
+            feels != null && !isNaN(feels)
+              ? '体感 ' + fmtTemp(feels) + '°C'
+              : '—';
+        } catch (e) {
+          iconBox.innerHTML = '';
+          conditionEl.textContent = '取得できませんでした';
+          humidityEl.textContent = '—';
+          windEl.textContent = '—';
+          tempEl.textContent = '—';
+          feelsEl.textContent = '—';
+        }
+      }
+
+      updateWeatherRyuo();
+      setInterval(updateWeatherRyuo, 600000);
     })();
   </script>
 </body>
