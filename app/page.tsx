@@ -1,3 +1,5 @@
+"use client";
+
 import { FarmWorkspace } from "@/components/workspace/FarmWorkspace";
 import { FARM_WORKSPACE_DATA } from "@/lib/farm-data";
 
