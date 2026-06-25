@@ -412,12 +412,8 @@ export function Workspace({
       />
       <SidebarInset className="flex min-w-0 flex-col bg-background">
         <GlobalHeader
-          departmentTitle={departmentTitle}
-          positionTitle={positionTitle}
-          candidateName={profile.name}
-          departments={departments}
-          onAddDepartment={addDepartment}
-          onDeleteDepartment={deleteDepartment}
+          varietyName={departmentTitle}
+          phaseTitle={positionTitle}
         />
         {/* SidebarInset 自体が <main> を出すので、内側は <div> で組み、
             Pane 2 / Pane 3 / Pane 4 を横並びにする。 */}
