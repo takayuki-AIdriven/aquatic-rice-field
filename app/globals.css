@@ -206,6 +206,20 @@
   --shadow-2xl: 0px 10px 20px 0px hsl(0 0% 0% / 0.75);
 }
 
+/* ===== Farm workspace カラートークン ===== */
+:root {
+  --color-rice:        #22c55e;
+  --color-rice-muted:  #15803d;
+  --color-water:       #38bdf8;
+  --color-water-muted: #0369a1;
+  --color-harvest:     #fbbf24;
+  --color-harvest-deep:#d97706;
+  --color-kinu:        #f59e0b;
+  --color-kinu-glow:   rgba(245, 158, 11, 0.25);
+  --color-koshi:       #10b981;
+  --color-mizu:        #0ea5e9;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -218,4 +232,9 @@
   html {
     @apply font-sans;
   }
+
+  /* Farm workspace 共通スクロールバースタイル */
+  .farm-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+  .farm-scrollbar::-webkit-scrollbar-thumb { background: rgba(100,116,139,0.3); border-radius: 9999px; }
+  .farm-scrollbar::-webkit-scrollbar-track { background: transparent; }
 }
