@@ -183,6 +183,22 @@ export function GlobalHeader({
         </div>
       </div>
 
+      {/* 昼夜モード切替トグル（強制配置） */}
+      <Button
+        variant="outline"
+        size="sm"
+        className={`shrink-0 flex items-center gap-2 border-2 px-3 py-1.5 shadow-sm transition-all duration-500 ${
+          isNightMode 
+            ? 'border-indigo-500 bg-indigo-950/60 text-indigo-300 hover:bg-indigo-900/80 hover:text-indigo-200' 
+            : 'border-amber-400 bg-gradient-to-b from-amber-50 to-amber-100 text-amber-800 hover:bg-amber-200'
+        }`}
+        onClick={onToggleNightMode}
+        aria-label="昼夜モード切替"
+      >
+        {isNightMode ? <Moon className="size-4" /> : <Sun className="size-4" />}
+        <span className="font-bold text-xs">{isNightMode ? "夜間モード" : "昼間モード"}</span>
+      </Button>
+
       {/* 気温 */}
       <div
         id="header-temp"
@@ -216,23 +232,7 @@ export function GlobalHeader({
         {reportDate}
       </time>
 
-      {/* 昼夜モード切替トグル（北斗七星UI） */}
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              className="shrink-0 text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="昼夜モード切替"
-              onClick={onToggleNightMode}
-            >
-              {isNightMode ? <Moon className="size-4 text-indigo-400" /> : <Sun className="size-4 text-amber-500" />}
-            </Button>
-          }
-        />
-        <TooltipContent side="bottom">{isNightMode ? "昼間モードへ" : "夜間モードへ"}</TooltipContent>
-      </Tooltip>
+
 
       {/* 設定ボタン */}
       <Tooltip>
