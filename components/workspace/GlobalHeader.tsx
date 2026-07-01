@@ -216,7 +216,7 @@ export function GlobalHeader({
         {reportDate}
       </time>
 
-      {/* 昼夜トグル */}
+      {/* 昼夜モード切替トグル（北斗七星UI） */}
       <Tooltip>
         <TooltipTrigger
           render={

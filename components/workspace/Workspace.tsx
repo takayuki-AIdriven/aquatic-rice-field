@@ -112,8 +112,8 @@ export function Workspace({
   const [pane4ManuallyClosed, setPane4ManuallyClosed] = useState(false);
   // Pane 3 ヘッダー帯（Collapsible）の開閉。候補者切替で閉じ、新規追加で開く。
   const [applicationInfoOpen, setApplicationInfoOpen] = useState(false);
+  // 夜間モード（北斗七星 UI）の状態管理
   const [isNightMode, setIsNightMode] = useState(false);
-
   const toggleNightMode = useCallback(() => setIsNightMode((v) => !v), []);
 
   // Pane 4 の展開状態を派生計算（ADR-0015 §9 大決定 G）。
