@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Settings } from "lucide-react";
+import { Settings, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -66,12 +66,16 @@ type GlobalHeaderProps = {
   varietyName?: string;
   phaseTitle?: string;
   onOpenSettings?: () => void;
+  isNightMode?: boolean;
+  onToggleNightMode?: () => void;
 };
 
 export function GlobalHeader({
   varietyName = "キヌヒカリ",
   phaseTitle = "育苗ハウス配置",
   onOpenSettings,
+  isNightMode,
+  onToggleNightMode,
 }: GlobalHeaderProps) {
   const [reportDate, setReportDate] = useState("—");
   const [reportDatetime, setReportDatetime] = useState("");
@@ -126,7 +130,7 @@ export function GlobalHeader({
   return (
     <header
       id="farm-global-header"
-      className="flex h-14 shrink-0 items-center gap-3 border-b border-border bg-background px-4"
+      className={`flex h-14 shrink-0 items-center gap-3 border-b border-border px-4 transition-colors duration-1000 ${isNightMode ? 'bg-transparent text-slate-200' : 'bg-background'}`}
     >
       {/* ロゴ + パンくず */}
       <div className="flex min-w-0 flex-1 items-center gap-3 overflow-hidden">
@@ -157,7 +161,7 @@ export function GlobalHeader({
       {/* 天気ミニ */}
       <div
         id="header-weather"
-        className="hidden shrink-0 items-center gap-2 rounded-lg border border-sky-200 bg-sky-50 px-3 py-1.5 md:flex"
+        className={`hidden shrink-0 items-center gap-2 rounded-lg border px-3 py-1.5 md:flex transition-colors duration-700 ${isNightMode ? 'border-sky-900/50 bg-sky-950/40' : 'border-sky-200 bg-sky-50'}`}
         aria-label="現場天候"
       >
         {weather.icon ? (
@@ -170,10 +174,10 @@ export function GlobalHeader({
           </svg>
         )}
         <div className="flex flex-col">
-          <span id="header-condition" className="font-mono text-[11px] font-semibold text-sky-900 leading-none">
+          <span id="header-condition" className={`font-mono text-[11px] font-semibold leading-none ${isNightMode ? 'text-sky-300' : 'text-sky-900'}`}>
             {weather.condition}
           </span>
-          <span id="header-humidity" className="font-mono text-[10px] text-sky-700 leading-none mt-0.5">
+          <span id="header-humidity" className={`font-mono text-[10px] leading-none mt-0.5 ${isNightMode ? 'text-sky-400/80' : 'text-sky-700'}`}>
             {weather.humidity}
           </span>
         </div>
@@ -182,13 +186,24 @@ export function GlobalHeader({
       {/* 気温 */}
       <div
         id="header-temp"
-        className="hidden shrink-0 items-center gap-1 rounded-lg border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50/80 px-3 py-1.5 lg:flex"
+        className={`hidden shrink-0 items-center gap-1 rounded-lg border px-3 py-1.5 lg:flex transition-colors duration-700 ${
+          isNightMode
+            ? "border-emerald-500/50 bg-emerald-950/40 shadow-[0_0_15px_rgba(16,185,129,0.15)]"
+            : "border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50/80"
+        }`}
         aria-label="気温"
       >
-        <span id="header-temperature-value" className="font-mono text-lg font-bold tabular-nums text-amber-600">
-          {weather.temperature}
-        </span>
-        <span className="font-mono text-xs font-medium text-amber-800/80">°C</span>
+        <div className="flex items-baseline gap-0.5">
+          <span id="header-temperature-value" className={`font-mono text-lg font-bold tabular-nums ${isNightMode ? 'text-emerald-400' : 'text-amber-600'}`}>
+            {weather.temperature}
+          </span>
+          <span className={`font-mono text-xs font-medium ${isNightMode ? 'text-emerald-500/80' : 'text-amber-800/80'}`}>°C</span>
+        </div>
+        {isNightMode && (
+          <span className="ml-2 font-mono text-[10px] font-medium text-emerald-400/90 border border-emerald-500/30 bg-emerald-900/40 rounded px-1.5 py-0.5">
+            目標: 15-18℃
+          </span>
+        )}
       </div>
 
       {/* 時計 */}
@@ -200,6 +215,24 @@ export function GlobalHeader({
       >
         {reportDate}
       </time>
+
+      {/* 昼夜トグル */}
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="shrink-0 text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="昼夜モード切替"
+              onClick={onToggleNightMode}
+            >
+              {isNightMode ? <Moon className="size-4 text-indigo-400" /> : <Sun className="size-4 text-amber-500" />}
+            </Button>
+          }
+        />
+        <TooltipContent side="bottom">{isNightMode ? "昼間モードへ" : "夜間モードへ"}</TooltipContent>
+      </Tooltip>
 
       {/* 設定ボタン */}
       <Tooltip>
