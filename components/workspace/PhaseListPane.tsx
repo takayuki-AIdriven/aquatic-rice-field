@@ -49,8 +49,9 @@ export function PhaseListPane({
 
   return (
     <div
-      id="phase-list-pane"
-      className="flex w-56 shrink-0 flex-col border-r border-border bg-background"
+      id="farm-phase-list"
+      className="flex w-56 shrink-0 flex-col border-r border-border"
+      aria-label="フェーズリスト"
     >
       {/* ヘッダー */}
       <div className="flex h-12 shrink-0 items-center justify-between border-b border-border px-4">

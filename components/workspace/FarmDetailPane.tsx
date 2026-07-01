@@ -68,8 +68,8 @@ export function FarmDetailPane({
     return (
       <div
         id="farm-detail-pane-collapsed"
-        className="flex w-10 shrink-0 flex-col items-center border-l border-border bg-background pt-4"
-        aria-label="詳細パネル（折りたたみ）"
+        className="flex w-10 shrink-0 flex-col items-center border-l border-border pt-4"
+        aria-label="詳細ペイン（折りたたみ状態）"
       >
         <Button
           variant="ghost"
@@ -87,7 +87,8 @@ export function FarmDetailPane({
   return (
     <div
       id="farm-detail-pane"
-      className="flex w-80 shrink-0 flex-col border-l border-border bg-background xl:w-96"
+      className="flex w-80 shrink-0 flex-col border-l border-border xl:w-96"
+      aria-label="現場詳細ペイン"
     >
       {/* ヘッダー */}
       <div className="flex h-12 shrink-0 items-center justify-between border-b border-border px-4">

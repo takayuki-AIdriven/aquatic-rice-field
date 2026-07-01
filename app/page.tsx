@@ -1,19 +1,10 @@
 "use client";
 
-import { Workspace } from "@/components/workspace/Workspace";
-import type { Candidate, Department } from "@/lib/schema";
-import initialCandidates from "@/data/candidates.json";
-import initialDepartments from "@/data/positions.json";
-import workspaceData from "@/data/workspace.json";
+import { FarmWorkspace } from "@/components/workspace/FarmWorkspace";
+import { FARM_WORKSPACE_DATA } from "@/lib/farm-data";
 
 export default function Page() {
-  return (
-    <Workspace
-      initialCandidates={initialCandidates as unknown as Candidate[]}
-      initialDepartments={initialDepartments as unknown as Department[]}
-      workspace={workspaceData}
-    />
-  );
+  return <FarmWorkspace data={FARM_WORKSPACE_DATA} />;
 }
 
 
