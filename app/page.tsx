@@ -1,12 +1,18 @@
 "use client";
 
-import { FarmWorkspace } from "@/components/workspace/FarmWorkspace";
-import { FARM_WORKSPACE_DATA } from "@/lib/farm-data";
+import { Workspace } from "@/components/workspace/Workspace";
+import initialCandidates from "@/data/candidates.json";
+import initialDepartments from "@/data/positions.json";
+import workspaceData from "@/data/workspace.json";
 
 export default function Page() {
-  // Force Vercel to trigger a new build by changing a source file
-  // Last updated: 2026-06-25 to ensure deployment pipeline runs
-  return <FarmWorkspace data={FARM_WORKSPACE_DATA} />;
+  return (
+    <Workspace
+      initialCandidates={initialCandidates as any}
+      initialDepartments={initialDepartments as any}
+      workspace={workspaceData}
+    />
+  );
 }
 
 
