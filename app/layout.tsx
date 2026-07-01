@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "採用管理ワークスペース",
+  title: "4ペイン対応版",
   description: "tweakcn テーマ + 日本語タイポ検証用プロトタイプ",
 };
 
