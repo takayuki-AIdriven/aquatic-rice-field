@@ -69,7 +69,7 @@ function TrayGrid({ trays, selectedVariety }: { trays: TrayBlock[]; selectedVari
   const rowB = trays.slice(8, 16);
   const rowD = trays.slice(16);
 
-  function trayClass(tray: TrayBlock, idx: number) {
+  function trayClass(tray: TrayBlock) {
     if (tray.variety === null) {
       return "flex aspect-[4/3] flex-col items-center justify-center rounded border border-dashed border-muted-foreground/30 bg-background";
     }

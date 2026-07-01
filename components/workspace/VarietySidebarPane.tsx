@@ -156,7 +156,6 @@ export function VarietySidebarPane({
               aria-label="品種構成比"
             >
               {varieties.map((v) => {
-                const theme = THEME_CLASSES[v.colorTheme];
                 const ratio = (parseFloat(v.area) / totalArea) * 100;
                 const barColor = v.colorTheme === "amber"
                   ? "bg-gradient-to-b from-amber-500 to-amber-600"
@@ -176,7 +175,6 @@ export function VarietySidebarPane({
             </div>
             <ul className="mt-2 flex flex-col gap-1 font-mono text-[10px] text-muted-foreground">
               {varieties.map((v) => {
-                const theme = THEME_CLASSES[v.colorTheme];
                 const ratio = ((parseFloat(v.area) / totalArea) * 100).toFixed(1);
                 const dotColor = v.colorTheme === "amber" ? "text-amber-600" : v.colorTheme === "emerald" ? "text-emerald-600" : "text-sky-600";
                 return (

@@ -6,7 +6,6 @@ import type {
   AiAction,
   TemperatureDirective,
   IrrigationDirective,
-  PhaseKey,
   SelectedFarmDetail,
 } from "@/lib/farm-schema";
 import { ScrollArea } from "@/components/ui/scroll-area";

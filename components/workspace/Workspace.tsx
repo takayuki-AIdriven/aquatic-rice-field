@@ -267,6 +267,7 @@ export function Workspace({
     [],
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const addDepartment = useCallback((name: string) => {
     setDepartments((prev) => [
       ...prev,
@@ -274,6 +275,7 @@ export function Workspace({
     ]);
   }, []);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const deleteDepartment = useCallback((deptId: string) => {
     setDepartments((prev) => prev.filter((d) => d.id !== deptId));
   }, []);

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP, Noto_Serif_JP } from "next/font/google";
+import Link from "next/link";
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ["latin"],
@@ -435,8 +436,8 @@ export default function FunazushiSlidePage() {
             本資料は農業生産者向け研究レポートです。医療・治療目的の情報ではありません。
           </p>
           <nav className="mt-4 flex justify-center gap-6 text-xs text-slate-400" aria-label="サイトナビゲーション">
-            <a href="/" className="transition-colors hover:text-slate-600">← ホームへ戻る</a>
-            <a href="/zukai" className="transition-colors hover:text-slate-600">図解レポートへ →</a>
+            <Link href="/" className="transition-colors hover:text-slate-600">← ホームへ戻る</Link>
+            <Link href="/zukai" className="transition-colors hover:text-slate-600">図解レポートへ →</Link>
           </nav>
         </footer>
       </main>
